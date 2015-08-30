@@ -1,14 +1,15 @@
-#include "hardware.h"
+#include <avr/io.h>
+#include <avr/delay.h>
+#include "5110.h"
 void setup();
 int main(){
+	setup();
 	while(1){
-		_delay_ms(250);
-		PORTB = ~PORTB;
 	}
 	return 0;
 }
 
 void setup(){
-	DDRB = 0x10;
-	PORTB |= 0x10;
+	lcd_init(&PORTB, PB0, &PORTB, PB1, &PORTB, PB2, &PORTB, PB3, &PORTB, PB4);
+
 }
