@@ -6,14 +6,15 @@
 const char* sGt_Tacho = "GT-TACHOMETER";
 const char* sRevision= "1.0.0.0";
 
-const char* sRpm = "RPM: %f";
-const char* sRps = "RPS: %f";
-const char* sMax = "MAX: %f";
-const char* sBlades = "Blades: %f";
+const char* sRpm = "RPM %i";
+const char* sRps = "RPS %i";
+const char* sMax = "MAX %i";
+const char* sBlades = "Blades: %i";
 char* message = 0;
 volatile uint8_t blades = 2;
-volatile uint8_t rpm;
-
+volatile uint16_t rpm = 0;
+volatile uint16_t rps = 0;
+volatile uint16_t max = 0;
 void setup();
 int main(){
 	setup();			/** setup stuff **/
@@ -21,22 +22,27 @@ int main(){
 	lcd_clear();
 	lcd_goto_xy(0, 0);
 	lcd_str(sGt_Tacho);
-	lcd_goto_xy(0, 5);
+	lcd_goto_xy(0, 3);
 	lcd_str(sRevision);
 	_delay_ms(2000);
+	lcd_clear();
 	while(1){
 		/** print everything to the memory **/
-
 		sprintf(message, sRpm, rpm);
-		lcd_clear();
 		lcd_goto_xy(0, 0);
 		lcd_str(message);
-		lcd_goto_xy(0, 10);
-		lcd_str(sRpm);
-		lcd_goto_xy(0, 10);
-		lcd_str(sMax);
-		lcd_goto_xy(0, 10);
-		lcd_str(sBlades);
+
+		sprintf(message, sRps, rps);
+		lcd_goto_xy(0, 1);
+		lcd_str(message);
+
+		sprintf(message, sMax, max);
+		lcd_goto_xy(0, 2);
+		lcd_str(message);
+
+		sprintf(message, sBlades, blades);
+		lcd_goto_xy(0, 3);
+		lcd_str(message);
 
 		/** check for blades button pressed **/
 		if(1){//TODO: Replace with button pressed code
